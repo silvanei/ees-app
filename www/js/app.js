@@ -63,6 +63,10 @@ angular
         $urlRouterProvider.otherwise('/login');
     })
 
+    .config(['$ionicConfigProvider', function($ionicConfigProvider) {
+        $ionicConfigProvider.tabs.position('bottom'); // other values: top
+    }])
+
     .value('config', {
         baseUrl: 'http://192.168.0.13:9090/agenda/rest'
     })
