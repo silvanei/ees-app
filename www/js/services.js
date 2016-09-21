@@ -48,4 +48,19 @@ angular
 
         }
     ])
+
+    .factory('registroCliente', ['$http', 'config',
+        function($http, config){
+
+            function criar(usuario) {
+                usuario = angular.copy(usuario);
+                return $http.post(config.baseUrl + '/v1/registrar-cliente', usuario);
+            }
+            return {
+                post: criar
+            }
+
+        }]
+    )
+
 ;

@@ -22,6 +22,10 @@ label.item.valid-lr {
   margin: 5px 0
 }
 .form-error {
-  padding: 2px 0 2px 16px;
+  padding: 2px 0 5px 16px;
   color: red;
+}
+
+.spacer-10 {
+  height: 10px;
 }

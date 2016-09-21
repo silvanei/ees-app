@@ -8,6 +8,7 @@ angular
         'ionic',
         'ngMessages',
         'ngStorage',
+        'ngMask',
         'agenda.controllers',
         'agenda.services'
     ])
@@ -37,6 +38,11 @@ angular
                 url: '/login',
                 templateUrl: 'templates/login.html',
                 controller: 'LoginCtrl'
+            })
+            .state('cadastro', {
+                url: '/cadastro',
+                templateUrl: 'templates/cadastro.html',
+                controller: 'CadastroCtrl'
             })
             .state('tab', {
                 url: '/tab',

@@ -1,0 +1,67 @@
+<ion-view view-title="Cadastro" name="cadastro-view">
+    <ion-content class="padding">
+        <form name="cadastroForm" novalidate="" >
+            <div class="list list-inset">
+                <!-- NOME -->
+                <label class="item item-input" ng-class="{'has-error': (cadastroForm.nome.$invalid && cadastroForm.nome.$dirty)}">
+                    <input type="text" placeholder="Nome" name="nome" ng-model="user.nome" ng-required="true" ng-minlength="5" ng-maxlength="255">
+                </label>
+                <div ng-messages="cadastroForm.nome.$error" ng-show="cadastroForm.nome.$dirty">
+                    <div ng-message="required" class="form-error">
+                        Por favor, preencher o campo nome
+                    </div>
+                    <div ng-message="minlength" class="form-error">
+                        O campo nome deve ter no mínimo 5 caracteres
+                    </div>
+                    <div ng-message="maxlength" class="form-error">
+                        O campo nome deve ter no máximo 255 caracteres
+                    </div>
+                </div>
+
+                <!-- TELEFONE -->
+                <label class="item item-input" ng-class="{'has-error': (cadastroForm.telefone.$invalid && cadastroForm.telefone.$dirty)}">
+                    <input type="tel" placeholder="Telefone" name="telefone" ng-model="user.telefone" ng-required="true" mask="(99) 9?9999-9999" mask-restrict="reject" mask-clean="true">
+                </label>
+                <div ng-messages="cadastroForm.telefone.$error" ng-show="cadastroForm.telefone.$dirty">
+                    <div ng-message="required" class="form-error">
+                        Por favor, preencher o campo telefone
+                    </div>
+                    <div ng-message="mask" class="form-error">
+                        Favor informar um telefone válido
+                    </div>
+                </div>
+
+                <!-- EMAIL -->
+                <label class="item item-input" ng-class="{'has-error': (cadastroForm.email.$invalid && cadastroForm.email.$dirty)}">
+                    <input type="email" placeholder="email" name="email" ng-model="user.email" ng-required="true">
+                </label>
+                <div ng-messages="cadastroForm.email.$error" ng-show="cadastroForm.email.$dirty">
+                    <div ng-message="required" class="form-error">
+                        Por favor, preencher o campo e-mail
+                    </div>
+                    <div ng-message="email" class="form-error">
+                        Por favor, informe um e-mail válido
+                    </div>
+                </div>
+
+                <!-- SENHA -->
+                <label class="item item-input"  ng-class="{'has-error': (cadastroForm.senha.$invalid && cadastroForm.senha.$dirty)}">
+                    <input type="password" name="senha" placeholder="senha" ng-model="user.senha" ng-required="true" ng-minlength="5" ng-maxlength="10">
+                </label>
+                <div ng-messages="cadastroForm.senha.$error" ng-show="cadastroForm.senha.$dirty">
+                    <div ng-message="required" class="form-error">
+                        Por favor, preencher o campo senha
+                    </div>
+                    <div ng-message="minlength" class="form-error">
+                        O campo senha deve ter no mínimo 5 caracteres
+                    </div>
+                    <div ng-message="maxlength" class="form-error">
+                        O campo senha deve ter no máximo 10 caracteres
+                    </div>
+                </div>
+            </div>
+            <div class="spacer spacer-10"></div>
+            <button class="button button-block button-calm" ng-click="cadastrar(user)" ng-disabled="cadastroForm.$invalid" >Cadastrar</button>
+        </form>
+    </ion-content>
+</ion-view>
