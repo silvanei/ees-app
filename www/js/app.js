@@ -9,6 +9,7 @@ angular
         'ngMessages',
         'ngStorage',
         'ngMask',
+        'angular-jwt',
         'agenda.controllers',
         'agenda.services'
     ])
@@ -31,6 +32,7 @@ angular
         });
     })
 
+    // Rotas
     .config(function($stateProvider, $urlRouterProvider) {
 
         $stateProvider
@@ -63,11 +65,45 @@ angular
         $urlRouterProvider.otherwise('/login');
     })
 
+    // ionic
     .config(['$ionicConfigProvider', function($ionicConfigProvider) {
         $ionicConfigProvider.tabs.position('bottom'); // other values: top
     }])
 
+    // JWT
+    .config(['$httpProvider','jwtInterceptorProvider', 'jwtOptionsProvider',
+        function($httpProvider, jwtInterceptorProvider, jwtOptionsProvider){
+
+            jwtInterceptorProvider.tokenGetter = function(jwtHelper, $http, authenticationService, $localStorage, config) {
+                var jwt = authenticationService.getToken();
+                if(jwt){
+                    if(jwtHelper.isTokenExpired(jwt)){
+                        return $http({
+                            url : config.baseUrl + '/v1/token',
+                            skipAuthorization : true,
+                            method: 'GET',
+                            headers : { Authorization : 'Bearer '+ jwt}
+                        }).then(function(response){
+                            $localStorage.currentUser.token = response.data.token;
+                            return response.data.token;
+                        },function(response){
+                            authenticationService.logout();
+                        });
+                    }else{
+                        return jwt;
+                    }
+                }
+            };
+
+            jwtOptionsProvider.config({
+                whiteListedDomains: ['localhost']
+            });
+
+            $httpProvider.interceptors.push('jwtInterceptor');
+        }
+    ])
+
     .value('config', {
-        baseUrl: 'http://192.168.0.13:9090/agenda/rest'
+        baseUrl: 'http://localhost:8080/rest'
     })
 ;

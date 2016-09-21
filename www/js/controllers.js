@@ -68,12 +68,29 @@ angular
         }
     ])
 
-    .controller('FavoritoCtrl', ['$scope',
-        function($scope) {
+    .controller('FavoritoCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'clienteService',
+        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, clienteService) {
             $scope.$on('$ionicView.enter', function(ev) {
-                console.log('FavoritoCtrl aqui');
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
+
+                clienteService.get().success(function(data) {
+                    $scope.items = data.favoritos;
+                    $ionicLoading.hide();
+
+                }).error(function(data, status) {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({
+                        title: 'Alerta',
+                        template: data.errorMessage
+                    });
+                });
             });
 
+            $scope.teste = function (data) {
+                console.log(data);
+            };
         }
     ])
 ;
