@@ -93,4 +93,55 @@ angular
             };
         }
     ])
+
+    .controller('BuscaCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'clienteService',
+        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, clienteService) {
+            $scope.$on('$ionicView.enter', function(ev) {
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
+
+                clienteService.get().success(function(data) {
+                    $scope.items = data.favoritos;
+                    $ionicLoading.hide();
+
+                }).error(function(data, status) {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({
+                        title: 'Alerta',
+                        template: data.errorMessage
+                    });
+                });
+            });
+
+            $scope.teste = function (data) {
+                console.log(data);
+            };
+        }
+    ])
+    .controller('ReservasCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'clienteService',
+        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, clienteService) {
+            $scope.$on('$ionicView.enter', function(ev) {
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
+
+                clienteService.get().success(function(data) {
+                    $scope.items = data.favoritos;
+                    $ionicLoading.hide();
+
+                }).error(function(data, status) {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({
+                        title: 'Alerta',
+                        template: data.errorMessage
+                    });
+                });
+            });
+
+            $scope.teste = function (data) {
+                console.log(data);
+            };
+        }
+    ])
 ;

@@ -1,14 +1,12 @@
 <ion-view view-title="Favoritos">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="item in items" class="item-thumbnail-left item-button-right">
+            <ion-item ng-click="teste('lista')"  ng-repeat="item in items" class="item-thumbnail-left item-icon-right">
                 <img ng-src="{{item.imgBase64 }}">
                 <h2>{{ item.nome }}</h2>
                 <p>{{ item.telefone }}</p>
 
-                <button class="button">
-                    <i class="icon ion-ios-star"></i>
-                </button>
+                <i ng-click="teste('icone'); $event.stopPropagation();" class="icon ion-ios-star button button-icon"></i>
 
             </ion-item>
         </ion-list>

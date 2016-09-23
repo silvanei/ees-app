@@ -1,0 +1,16 @@
+<ion-view view-title="Reservas">
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="item in items" class="item-thumbnail-left item-button-right">
+                <img ng-src="{{item.imgBase64 }}">
+                <h2>{{ item.nome }}</h2>
+                <p>{{ item.telefone }}</p>
+
+                <button class="button">
+                    <i class="icon ion-ios-star"></i>
+                </button>
+
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -60,6 +60,24 @@ angular
                     }
                 }
             })
+            .state('tab.busca', {
+                url: '/busca',
+                views: {
+                    'tab-favoritos': {
+                        templateUrl: 'templates/tab-busca.html',
+                        controller: 'BuscaCtrl'
+                    }
+                }
+            })
+            .state('tab.reservas', {
+                url: '/reservas',
+                views: {
+                    'tab-favoritos': {
+                        templateUrl: 'templates/tab-reservas.html',
+                        controller: 'ReservasCtrl'
+                    }
+                }
+            })
         ;
 
         $urlRouterProvider.otherwise('/login');
@@ -76,6 +94,7 @@ angular
 
             jwtInterceptorProvider.tokenGetter = function(jwtHelper, $http, authenticationService, $localStorage, config) {
                 var jwt = authenticationService.getToken();
+                console.log(jwt);
                 if(jwt){
                     if(jwtHelper.isTokenExpired(jwt)){
                         return $http({
@@ -96,7 +115,7 @@ angular
             };
 
             jwtOptionsProvider.config({
-                whiteListedDomains: ['localhost']
+                whiteListedDomains: ['localhost', '192.168.0.13']
             });
 
             $httpProvider.interceptors.push('jwtInterceptor');
@@ -104,6 +123,6 @@ angular
     ])
 
     .value('config', {
-        baseUrl: 'http://localhost:8080/rest'
+        baseUrl: 'http://192.168.0.13:9090/agenda/rest'
     })
 ;
