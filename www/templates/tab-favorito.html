@@ -1,14 +1,20 @@
-<ion-view view-title="Favoritos">
+<ion-view view-title="Favoritos" id="page-tab-favoritos">
     <ion-content>
-        <ion-list>
-            <ion-item ng-click="teste('lista')"  ng-repeat="item in items" class="item-thumbnail-left item-icon-right">
+        <div class="list card" ng-repeat="item in items" >
+            <div class="item item-thumbnail-left item-icon-right item-text-wrap" ng-click="teste('item')">
                 <img ng-src="{{item.imgBase64 }}">
                 <h2>{{ item.nome }}</h2>
+                <p>
+                    {{ item.endereco.rua }} -
+                    {{ item.endereco.bairro }},
+                    {{ item.endereco.numero }}
+                    {{ item.endereco.cidade }} -
+                    {{ item.endereco.estado }}
+                </p>
                 <p>{{ item.telefone }}</p>
 
-                <i ng-click="teste('icone'); $event.stopPropagation();" class="icon ion-ios-star button button-icon"></i>
-
-            </ion-item>
-        </ion-list>
+                <i ng-click="favorito(item); $event.stopPropagation();" class="icon button button-icon" ng-class="{'ion-ios-star-outline': (!item.favorito), 'ion-ios-star': (item.favorito)}"></i>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

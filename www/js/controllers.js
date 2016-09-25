@@ -68,15 +68,72 @@ angular
         }
     ])
 
-    .controller('FavoritoCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'clienteService',
-        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, clienteService) {
+    .controller('FavoritoCtrl', ['$scope', '$state', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'favoritoService', 'authenticationService',
+        function($scope, $state, $ionicLoading, $ionicPopup, $ionicListDelegate, favoritoService, authenticationService) {
+            $scope.$on('$ionicView.enter', function(ev) {
+
+                if(! authenticationService.clienteId()) {
+                    $state.go('login');
+                } else {
+
+                    $ionicLoading.show({
+                      template: 'Loading...'
+                    });
+
+                    favoritoService.get().success(function (data) {
+                      $scope.items = data;
+                      $ionicLoading.hide();
+
+                    }).error(function (data, status) {
+                      $ionicLoading.hide();
+                      $ionicPopup.alert({
+                        title: 'Alerta',
+                        template: data.errorMessage
+                      });
+                    });
+                }
+            });
+
+            $scope.favorito = function (item) {
+                if(item.favorito) {
+                    favoritoService.delete(item.id).success(function(data) {
+
+                        item.favorito = false;
+
+                    }).error(function(data) {
+                        $ionicPopup.alert({
+                            title: 'Alerta',
+                            template: data.errorMessage
+                        });
+                    });
+                }
+
+                if(!item.favorito) {
+
+                    favoritoService.post(item.id).success(function(data) {
+
+                        item.favorito = true;
+
+                    }).error(function(data) {
+                        $ionicPopup.alert({
+                            title: 'Alerta',
+                            template: data.errorMessage
+                        });
+                    });
+                }
+            };
+        }
+    ])
+
+    .controller('BuscaCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'salaoService', 'favoritoService',
+        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, salaoService, favoritoService) {
             $scope.$on('$ionicView.enter', function(ev) {
                 $ionicLoading.show({
                     template: 'Loading...'
                 });
 
-                clienteService.get().success(function(data) {
-                    $scope.items = data.favoritos;
+                salaoService.get().success(function(data) {
+                    $scope.items = data;
                     $ionicLoading.hide();
 
                 }).error(function(data, status) {
@@ -88,56 +145,57 @@ angular
                 });
             });
 
-            $scope.teste = function (data) {
-                console.log(data);
-            };
-        }
-    ])
+            $scope.favorito = function (item) {
 
-    .controller('BuscaCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'clienteService',
-        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, clienteService) {
-            $scope.$on('$ionicView.enter', function(ev) {
-                $ionicLoading.show({
-                    template: 'Loading...'
-                });
+                if(item.favorito) {
+                    favoritoService.delete(item.id).success(function(data) {
 
-                clienteService.get().success(function(data) {
-                    $scope.items = data.favoritos;
-                    $ionicLoading.hide();
+                        item.favorito = false;
 
-                }).error(function(data, status) {
-                    $ionicLoading.hide();
-                    $ionicPopup.alert({
-                        title: 'Alerta',
-                        template: data.errorMessage
+                    }).error(function(data) {
+                        $ionicPopup.alert({
+                            title: 'Alerta',
+                            template: data.errorMessage
+                        });
                     });
-                });
-            });
+                }
 
-            $scope.teste = function (data) {
-                console.log(data);
+                if(!item.favorito) {
+
+                    favoritoService.post(item.id).success(function(data) {
+
+                        item.favorito = true;
+
+                    }).error(function(data) {
+                        $ionicPopup.alert({
+                            title: 'Alerta',
+                            template: data.errorMessage
+                        });
+                    });
+                }
             };
         }
     ])
+
     .controller('ReservasCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'clienteService',
         function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, clienteService) {
-            $scope.$on('$ionicView.enter', function(ev) {
-                $ionicLoading.show({
-                    template: 'Loading...'
-                });
-
-                clienteService.get().success(function(data) {
-                    $scope.items = data.favoritos;
-                    $ionicLoading.hide();
-
-                }).error(function(data, status) {
-                    $ionicLoading.hide();
-                    $ionicPopup.alert({
-                        title: 'Alerta',
-                        template: data.errorMessage
-                    });
-                });
-            });
+            //$scope.$on('$ionicView.enter', function(ev) {
+            //    $ionicLoading.show({
+            //        template: 'Loading...'
+            //    });
+            //
+            //    clienteService.get().success(function(data) {
+            //        $scope.items = data.favoritos;
+            //        $ionicLoading.hide();
+            //
+            //    }).error(function(data, status) {
+            //        $ionicLoading.hide();
+            //        $ionicPopup.alert({
+            //            title: 'Alerta',
+            //            template: data.errorMessage
+            //        });
+            //    });
+            //});
 
             $scope.teste = function (data) {
                 console.log(data);

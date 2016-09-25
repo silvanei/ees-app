@@ -6,8 +6,8 @@
 angular
     .module('agenda.services', [])
 
-    .factory('authenticationService', ['$http', '$localStorage', 'config', 'jwtHelperService',
-        function($http, $localStorage, config, jwtHelperService) {
+    .factory('authenticationService', ['$http', '$localStorage', 'config', 'jwtHelperService', '$state', '$rootScope',
+        function($http, $localStorage, config, jwtHelperService, $state, $rootScope) {
 
             function login(email, password, callback) {
                 $http.post(config.baseUrl + '/v1/token', { email: email, password: password })
@@ -43,16 +43,39 @@ angular
             function identity() {
 
                 var token = getToken();
-                var decodeToken = jwtHelperService.decodeToken(token);
+                if(token) {
+                    var decodeToken = jwtHelperService.decodeToken(token);
+                    return decodeToken.cli;
+                }
 
-                return decodeToken.cli;
+                return null;
+
+            }
+
+            function checkAuthOnRefresh() {
+                $rootScope.$on('$locationChangeStart', function (event, next, current) {
+
+                    if (next.substr(next.length - 8) == 'cadastro') {
+                        return;
+                    }
+
+                    var token = getToken();
+
+                    if (!token || jwtHelperService.isTokenExpired(token)) {
+                        $rootScope.$evalAsync(function () {
+                            $state.go('login');
+                        });
+
+                    }
+                });
             }
 
             return {
                 login: login,
                 logout: logout,
                 getToken: getToken,
-                clienteId: identity
+                clienteId: identity,
+                checkAuthOnRefresh: checkAuthOnRefresh
             }
 
         }
@@ -74,6 +97,11 @@ angular
             };
 
             var decodeToken = function(token) {
+
+                if(!token) {
+                    return null;
+                }
+
                 var parts = token.split('.');
 
                 if (parts.length !== 3) {
@@ -140,6 +168,51 @@ angular
 
             function baseUrl() {
                 return config.baseUrl + '/v1/cliente/' + authenticationService.clienteId();
+            }
+
+            function get() {
+                return $http.get(baseUrl());
+            }
+            return {
+                get: get
+            }
+
+        }
+    ])
+
+    .factory('favoritoService', ['$http', 'config', 'authenticationService',
+        function($http, config, authenticationService){
+
+            function baseUrl() {
+                return config.baseUrl + '/v1/cliente/' + authenticationService.clienteId() + '/favorito';
+            }
+
+            function get() {
+                return $http.get(baseUrl());
+            }
+
+            function post(salaoId) {
+                return $http.post(baseUrl() + "/salao/" + salaoId)
+            }
+
+            function remove(salaoId) {
+                return $http.delete(baseUrl() + "/salao/" + salaoId)
+            }
+
+            return {
+                get: get,
+                post: post,
+                delete: remove
+            }
+
+        }
+    ])
+
+    .factory('salaoService', ['$http', 'config', 'authenticationService',
+        function($http, config, authenticationService){
+
+            function baseUrl() {
+                return config.baseUrl + '/v1/cliente/' + authenticationService.clienteId() + '/salao';
             }
 
             function get() {

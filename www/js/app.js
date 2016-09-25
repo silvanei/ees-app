@@ -10,11 +10,12 @@ angular
         'ngStorage',
         'ngMask',
         'angular-jwt',
+        'agenda.routes',
         'agenda.controllers',
         'agenda.services'
     ])
 
-    .run(function ($ionicPlatform) {
+    .run(function ($ionicPlatform, authenticationService) {
         $ionicPlatform.ready(function () {
             if (window.cordova && window.cordova.plugins.Keyboard) {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -29,58 +30,9 @@ angular
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
+
+            authenticationService.checkAuthOnRefresh();
         });
-    })
-
-    // Rotas
-    .config(function($stateProvider, $urlRouterProvider) {
-
-        $stateProvider
-            .state('login', {
-                url: '/login',
-                templateUrl: 'templates/login.html',
-                controller: 'LoginCtrl'
-            })
-            .state('cadastro', {
-                url: '/cadastro',
-                templateUrl: 'templates/cadastro.html',
-                controller: 'CadastroCtrl'
-            })
-            .state('tab', {
-                url: '/tab',
-                abstract: true,
-                templateUrl: 'templates/tabs.html'
-            })
-            .state('tab.favoritos', {
-                url: '/favoritos',
-                views: {
-                    'tab-favoritos': {
-                        templateUrl: 'templates/tab-favorito.html',
-                        controller: 'FavoritoCtrl'
-                    }
-                }
-            })
-            .state('tab.busca', {
-                url: '/busca',
-                views: {
-                    'tab-favoritos': {
-                        templateUrl: 'templates/tab-busca.html',
-                        controller: 'BuscaCtrl'
-                    }
-                }
-            })
-            .state('tab.reservas', {
-                url: '/reservas',
-                views: {
-                    'tab-favoritos': {
-                        templateUrl: 'templates/tab-reservas.html',
-                        controller: 'ReservasCtrl'
-                    }
-                }
-            })
-        ;
-
-        $urlRouterProvider.otherwise('/login');
     })
 
     // ionic
@@ -94,7 +46,6 @@ angular
 
             jwtInterceptorProvider.tokenGetter = function(jwtHelper, $http, authenticationService, $localStorage, config) {
                 var jwt = authenticationService.getToken();
-                console.log(jwt);
                 if(jwt){
                     if(jwtHelper.isTokenExpired(jwt)){
                         return $http({
