@@ -215,7 +215,11 @@ angular
                 return config.baseUrl + '/v1/cliente/' + authenticationService.clienteId() + '/salao';
             }
 
-            function get() {
+            function get(str) {
+              console.log(str);
+                if(str) {
+                  return $http.get(baseUrl(), {params: {salao: str}});
+                }
                 return $http.get(baseUrl());
             }
             return {

@@ -5,11 +5,10 @@
                 <img ng-src="{{item.imgBase64 }}">
                 <h2>{{ item.nome }}</h2>
                 <p>
-                    {{ item.endereco.rua }} -
-                    {{ item.endereco.bairro }},
-                    {{ item.endereco.numero }}
-                    {{ item.endereco.cidade }} -
-                    {{ item.endereco.estado }}
+                    {{ item.endereco.rua }} ,
+                    {{ item.endereco.numero }} -
+                    {{ item.endereco.cidade.nome }} -
+                    {{ item.endereco.estado.nome }}
                 </p>
                 <p>{{ item.telefone }}</p>
 

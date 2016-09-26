@@ -127,13 +127,14 @@ angular
 
     .controller('BuscaCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'salaoService', 'favoritoService',
         function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, salaoService, favoritoService) {
+            $scope.items = [];
             $scope.$on('$ionicView.enter', function(ev) {
                 $ionicLoading.show({
                     template: 'Loading...'
                 });
 
                 salaoService.get().success(function(data) {
-                    $scope.items = data;
+                    $scope.items.data = data;
                     $ionicLoading.hide();
 
                 }).error(function(data, status) {
@@ -174,6 +175,21 @@ angular
                     });
                 }
             };
+
+            $scope.getUsersByName = function(str) {
+
+              salaoService.get(str).success(function(data) {
+                $scope.items.data = data;
+                $ionicLoading.hide();
+
+              }).error(function(data, status) {
+                $ionicLoading.hide();
+                $ionicPopup.alert({
+                  title: 'Alerta',
+                  template: data.errorMessage
+                });
+              });
+            }
         }
     ])
 
