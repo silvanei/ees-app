@@ -229,4 +229,26 @@ angular
         }
     ])
 
+    .factory('estadoService', ['$http', 'config',
+        function($http, config) {
+
+            function url() {
+              return config.baseUrl + '/v1/estado';
+            }
+
+            function get(estadoId) {
+
+              if(estadoId) {
+                return $http.get(url() + "/" + estadoId);
+              }
+
+              return $http.get(url());
+            }
+
+            return {
+              get: get
+            }
+        }
+    ])
+
 ;

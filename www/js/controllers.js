@@ -33,9 +33,26 @@ angular
         }
     ])
 
-    .controller('CadastroCtrl', ['$scope', 'registroCliente', '$state', '$ionicPopup', '$ionicLoading', '$timeout',
-        function($scope, registroCliente, $state, $ionicPopup, $ionicLoading, $timeout) {
+    .controller('CadastroCtrl', ['$scope', 'registroCliente', 'estadoService', '$state', '$ionicPopup', '$ionicLoading', '$timeout',
+        function($scope, registroCliente, estadoService, $state, $ionicPopup, $ionicLoading, $timeout) {
             $scope.user = {};
+
+            estadoService.get().success(function(data) {
+                $scope.estados = data;
+            }).error(function(data) {
+                $ionicPopup.alert({
+                    title: 'Alerta',
+                    template: data.errorMessage
+                });
+            });
+
+            $scope.changeEstado = function(estadoId) {
+                estadoService.get(estadoId).success(function(data) {
+                    $scope.cidades = data.cidades;
+                }).error(function(data) {
+                    Notification.error(data.errorMessage);
+                });
+            };
 
             $scope.cadastrar = function(usuario) {
 

@@ -31,6 +31,36 @@
                     </div>
                 </div>
 
+                <!-- ESTADO -->
+                <label class="item item-input item-select" ng-class="{'has-error': (cadastroForm.estado.$invalid && cadastroForm.estado.$dirty)}">
+                    <div class="input-label">
+                      Estado
+                    </div>
+                    <select class="form-control" name="estado" id="input-estado" ng-change="changeEstado(user.endereco.estado.id)" ng-model="user.endereco.estado.id" ng-options="estado.id as estado.nome for estado in estados" ng-required="true"  >
+                      <option value="">Selecione</option>
+                    </select>
+                </label>
+                <div ng-messages="cadastroForm.estado.$error" ng-show="cadastroForm.estado.$dirty">
+                    <div ng-message="required" class="form-error">
+                      Por favor, selecione um estado
+                    </div>
+                </div>
+
+                <!-- CIDADE -->
+                <label class="item item-input item-select" ng-class="{'has-error': (cadastroForm.cidade.$invalid && cadastroForm.cidade.$dirty)}">
+                    <div class="input-label">
+                      Cidade
+                    </div>
+                    <select class="form-control" name="cidade" id="input-cidade" ng-model="user.endereco.cidade.id" ng-options="cidade.id as cidade.nome for cidade in cidades" ng-required="true"  >
+                      <option value="">Selecione</option>
+                    </select>
+                </label>
+                <div ng-messages="cadastroForm.cidade.$error" ng-show="cadastroForm.cidade.$dirty">
+                    <div ng-message="required" class="form-error">
+                      Por favor, selecione uma Cidade
+                    </div>
+                </div>
+
                 <!-- EMAIL -->
                 <label class="item item-input" ng-class="{'has-error': (cadastroForm.email.$invalid && cadastroForm.email.$dirty)}">
                     <input type="email" placeholder="email" name="email" ng-model="user.email" ng-required="true">
