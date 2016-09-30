@@ -216,7 +216,6 @@ angular
             }
 
             function get(str) {
-              console.log(str);
                 if(str) {
                   return $http.get(baseUrl(), {params: {salao: str}});
                 }

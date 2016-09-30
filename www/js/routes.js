@@ -35,10 +35,20 @@ angular
             })
             .state('tab.busca', {
                 url: '/busca',
+                cache: false,
                 views: {
                     'tab-busca': {
                         templateUrl: 'templates/tab-busca.html',
                         controller: 'BuscaCtrl'
+                    }
+                }
+            })
+            .state('tab.servico', {
+                url: '/servico/:salaoId',
+                views: {
+                    'tab-busca': {
+                        templateUrl: 'templates/servico.html',
+                        controller: 'ServicoCtrl'
                     }
                 }
             })

@@ -8,7 +8,7 @@
 
     <ion-content class="has-subheader">
         <div class="list card" ng-repeat="item in items.data" >
-            <div class="item item-thumbnail-left item-icon-right item-text-wrap" ng-click="teste('item')">
+            <div class="item item-thumbnail-left item-icon-right item-text-wrap" ng-click="goto('tab.servico', {salaoId: item.id})">
                 <img ng-src="{{item.imgBase64 }}">
                 <h2>{{ item.nome }}</h2>
                 <p>

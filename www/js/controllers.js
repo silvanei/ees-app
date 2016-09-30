@@ -6,6 +6,14 @@ angular
 
     .module('agenda.controllers', [])
 
+    .controller('mainCtrl', ['$scope', '$state', '$rootScope',
+        function($scope, $state, $rootScope) {
+            $scope.goto=function(toState, params){
+              $state.go(toState, params); //remember to inject $state to your controller
+            }
+        }
+    ])
+
     .controller('LoginCtrl', ['$scope', 'authenticationService', '$state', '$ionicPopup',
         function($scope, authenticationService, $state, $ionicPopup) {
 
@@ -25,11 +33,6 @@ angular
                     }
                 });
             };
-
-            $scope.goto=function(toState, params){
-                $state.go(toState, params); //remember to inject $state to your controller
-            }
-
         }
     ])
 
@@ -142,8 +145,8 @@ angular
         }
     ])
 
-    .controller('BuscaCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'salaoService', 'favoritoService',
-        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, salaoService, favoritoService) {
+    .controller('BuscaCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', '$state', 'salaoService', 'favoritoService',
+        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, $state, salaoService, favoritoService) {
             $scope.items = [];
             $scope.$on('$ionicView.enter', function(ev) {
                 $ionicLoading.show({
@@ -206,7 +209,7 @@ angular
                   template: data.errorMessage
                 });
               });
-            }
+            };
         }
     ])
 
@@ -233,6 +236,14 @@ angular
             $scope.teste = function (data) {
                 console.log(data);
             };
+        }
+    ])
+
+    .controller('ServicoCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', '$stateParams', '$rootScope',
+        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, $stateParams, $rootScope) {
+          console.log('AQUI', $rootScope.salaoSelecionado);
+          $scope.item = angular.copy($rootScope.salaoSelecionado);
+
         }
     ])
 ;
