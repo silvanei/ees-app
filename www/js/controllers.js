@@ -6,11 +6,41 @@ angular
 
     .module('agenda.controllers', [])
 
-    .controller('mainCtrl', ['$scope', '$state', '$rootScope',
-        function($scope, $state, $rootScope) {
+    .controller('mainCtrl', ['$scope', '$state', 'favoritoService',
+        function($scope, $state, favoritoService) {
             $scope.goto=function(toState, params){
               $state.go(toState, params); //remember to inject $state to your controller
-            }
+            };
+
+            $scope.favorito = function (item) {
+
+                if(item.favorito) {
+                    favoritoService.delete(item.id).success(function(data) {
+
+                        item.favorito = false;
+
+                    }).error(function(data) {
+                        $ionicPopup.alert({
+                            title: 'Alerta',
+                            template: data.errorMessage
+                        });
+                    });
+                }
+
+                if(!item.favorito) {
+
+                  favoritoService.post(item.id).success(function(data) {
+
+                      item.favorito = true;
+
+                  }).error(function(data) {
+                      $ionicPopup.alert({
+                        title: 'Alerta',
+                        template: data.errorMessage
+                      });
+                  });
+                }
+            };
         }
     ])
 
@@ -166,36 +196,6 @@ angular
                 });
             });
 
-            $scope.favorito = function (item) {
-
-                if(item.favorito) {
-                    favoritoService.delete(item.id).success(function(data) {
-
-                        item.favorito = false;
-
-                    }).error(function(data) {
-                        $ionicPopup.alert({
-                            title: 'Alerta',
-                            template: data.errorMessage
-                        });
-                    });
-                }
-
-                if(!item.favorito) {
-
-                    favoritoService.post(item.id).success(function(data) {
-
-                        item.favorito = true;
-
-                    }).error(function(data) {
-                        $ionicPopup.alert({
-                            title: 'Alerta',
-                            template: data.errorMessage
-                        });
-                    });
-                }
-            };
-
             $scope.getUsersByName = function(str) {
 
               salaoService.get(str).success(function(data) {
@@ -239,10 +239,28 @@ angular
         }
     ])
 
-    .controller('ServicoCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', '$stateParams', '$rootScope',
-        function($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, $stateParams, $rootScope) {
-          console.log('AQUI', $rootScope.salaoSelecionado);
-          $scope.item = angular.copy($rootScope.salaoSelecionado);
+    .controller('ServicoCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$stateParams', 'salaoService',
+        function($scope, $ionicLoading, $ionicPopup, $stateParams, salaoService) {
+            $scope.item = {};
+
+            $scope.$on('$ionicView.enter', function(ev) {
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
+
+                salaoService.getById($stateParams.salaoId).success(function(data) {
+                    $scope.item = data;
+                    $ionicLoading.hide();
+
+                }).error(function(data, status) {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({
+                      title: 'Alerta',
+                      template: data.errorMessage
+                    });
+                });
+            });
+
 
         }
     ])

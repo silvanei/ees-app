@@ -208,21 +208,27 @@ angular
         }
     ])
 
-    .factory('salaoService', ['$http', 'config', 'authenticationService',
-        function($http, config, authenticationService){
+    .factory('salaoService', ['$http', 'config',
+        function($http, config){
 
             function baseUrl() {
-                return config.baseUrl + '/v1/cliente/' + authenticationService.clienteId() + '/salao';
+                return config.baseUrl + '/v1/salao';
             }
 
             function get(str) {
                 if(str) {
-                  return $http.get(baseUrl(), {params: {salao: str}});
+                  return $http.get(baseUrl(), {params: {nome: str}});
                 }
                 return $http.get(baseUrl());
             }
+
+            function getById(salaoId) {
+                return $http.get(baseUrl() + "/" + salaoId)
+            }
+
             return {
-                get: get
+                get: get,
+                getById: getById
             }
 
         }
