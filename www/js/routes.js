@@ -44,11 +44,38 @@ angular
                 }
             })
             .state('tab.servico', {
-                url: '/servico/:salaoId',
+                url: '/salao/:salaoId/servico',
                 views: {
                     'tab-busca': {
-                        templateUrl: 'templates/servico.html',
+                        templateUrl: 'templates/tab-servico.html',
                         controller: 'ServicoCtrl'
+                    }
+                }
+            })
+            .state('tab.profissional', {
+                url: '/salao/:salaoId/servico/:servicoId/profissional',
+                views: {
+                    'tab-busca': {
+                        templateUrl: 'templates/tab-profissional.html',
+                        controller: 'ProfissionalCtrl'
+                    }
+                }
+            })
+            .state('tab.confirmacao', {
+                url: '/salao/:salaoId/servico/:servicoId/profissional/:profissionalId/dia/:dia/hora/:hora/salao/:salao/servico/:servico/profissional/:profissional',
+                views: {
+                    'tab-busca': {
+                        templateUrl: 'templates/tab-confirmacao.html',
+                        controller: 'ConfirmacaoCtrl'
+                    }
+                }
+            })
+            .state('tab.agenda', {
+                url: '/salao/:salaoId/servico/:servicoId/profissional/:profissionalId/apelido/:apelido',
+                views: {
+                    'tab-busca': {
+                        templateUrl: 'templates/tab-agenda.html',
+                        controller: 'AgendaCtrl'
                     }
                 }
             })

@@ -1,0 +1,28 @@
+<ion-view view-title="Profissionais" name="profissional-view">
+    <ion-content scroll="false">
+        <div class="item item-thumbnail-left item-icon-right item-text-wrap">
+            <img ng-src="{{item.imgBase64 }}">
+            <h2>{{ item.nome }}</h2>
+            <h3>{{servico.descricao}}</h3>
+            <p>{{servico.valorMaximo | currency: 'R$ '}}</p>
+            <i ng-click="favorito(item); $event.stopPropagation();" class="icon button button-icon" ng-class="{'ion-ios-star-outline': (!item.favorito), 'ion-ios-star': (item.favorito)}"></i>
+        </div>
+
+        <div class="item item-divider">
+            Selecione um Profissional
+        </div>
+        <div class="card" ng-if="profissionais.length == 0">
+            <div class="item item-text-wrap">
+                Nenhum profissional encontrado para este serviço.
+            </div>
+        </div>
+        <ion-scroll style="height: 100%" ng-if="profissionais.length > 0">
+            <ul class="list">
+                <li class="item" ng-repeat="profissional in profissionais" ng-click="goto('tab.agenda', {salaoId: item.id, servicoId: servico.id, profissionalId: profissional.id, apelido: profissional.apelido})">
+                    <h2>{{profissional.apelido}}</h2>
+                </li>
+            </ul>
+            <div style="height: 131px;"></div>
+        </ion-scroll>
+    </ion-content>
+</ion-view>

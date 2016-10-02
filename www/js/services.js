@@ -7,15 +7,15 @@ angular
     .module('agenda.services', [])
 
     .factory('authenticationService', ['$http', '$localStorage', 'config', 'jwtHelperService', '$state', '$rootScope',
-        function($http, $localStorage, config, jwtHelperService, $state, $rootScope) {
+        function ($http, $localStorage, config, jwtHelperService, $state, $rootScope) {
 
             function login(email, password, callback) {
-                $http.post(config.baseUrl + '/v1/token', { email: email, password: password })
+                $http.post(config.baseUrl + '/v1/token', {email: email, password: password})
                     .success(function (response) {
                         // login successful if there's a token in the response
                         if (response.token) {
                             // store username and token in local storage to keep user logged in between page refreshes
-                            $localStorage.currentUser = { email: email, token: response.token };
+                            $localStorage.currentUser = {email: email, token: response.token};
                             // execute callback with true to indicate successful login
                             callback(true);
                         } else {
@@ -23,7 +23,7 @@ angular
                             callback(false);
                         }
                     })
-                    .error(function(data) {
+                    .error(function (data) {
                         callback(false);
                     });
             }
@@ -43,7 +43,7 @@ angular
             function identity() {
 
                 var token = getToken();
-                if(token) {
+                if (token) {
                     var decodeToken = jwtHelperService.decodeToken(token);
                     return decodeToken.cli;
                 }
@@ -82,8 +82,8 @@ angular
     ])
 
     .factory('jwtHelperService', ['$window',
-        function($window){
-            var urlBase64Decode = function(str) {
+        function ($window) {
+            var urlBase64Decode = function (str) {
                 var output = str.replace(/-/g, '+').replace(/_/g, '/');
                 switch (output.length % 4) {
                     case 0: { break; }
@@ -96,9 +96,9 @@ angular
                 return $window.decodeURIComponent(escape($window.atob(output))); //polyfill https://github.com/davidchambers/Base64.js
             };
 
-            var decodeToken = function(token) {
+            var decodeToken = function (token) {
 
-                if(!token) {
+                if (!token) {
                     return null;
                 }
 
@@ -116,10 +116,10 @@ angular
                 return angular.fromJson(decoded);
             };
 
-            var getTokenExpirationDate = function(token) {
+            var getTokenExpirationDate = function (token) {
                 var decoded = decodeToken(token);
 
-                if(typeof decoded.exp === "undefined") {
+                if (typeof decoded.exp === "undefined") {
                     return null;
                 }
 
@@ -129,7 +129,7 @@ angular
                 return d;
             };
 
-            var isTokenExpired = function(token, offsetSeconds) {
+            var isTokenExpired = function (token, offsetSeconds) {
                 var d = getTokenExpirationDate(token);
                 offsetSeconds = offsetSeconds || 0;
                 if (d === null) {
@@ -150,12 +150,13 @@ angular
     ])
 
     .factory('registroCliente', ['$http', 'config',
-        function($http, config){
+        function ($http, config) {
 
             function criar(usuario) {
                 usuario = angular.copy(usuario);
                 return $http.post(config.baseUrl + '/v1/registrar-cliente', usuario);
             }
+
             return {
                 post: criar
             }
@@ -164,7 +165,7 @@ angular
     ])
 
     .factory('clienteService', ['$http', 'config', 'authenticationService',
-        function($http, config, authenticationService){
+        function ($http, config, authenticationService) {
 
             function baseUrl() {
                 return config.baseUrl + '/v1/cliente/' + authenticationService.clienteId();
@@ -173,6 +174,7 @@ angular
             function get() {
                 return $http.get(baseUrl());
             }
+
             return {
                 get: get
             }
@@ -181,7 +183,7 @@ angular
     ])
 
     .factory('favoritoService', ['$http', 'config', 'authenticationService',
-        function($http, config, authenticationService){
+        function ($http, config, authenticationService) {
 
             function baseUrl() {
                 return config.baseUrl + '/v1/cliente/' + authenticationService.clienteId() + '/favorito';
@@ -209,49 +211,74 @@ angular
     ])
 
     .factory('salaoService', ['$http', 'config',
-        function($http, config){
+        function ($http, config) {
 
             function baseUrl() {
                 return config.baseUrl + '/v1/salao';
             }
 
             function get(str) {
-                if(str) {
-                  return $http.get(baseUrl(), {params: {nome: str}});
+                if (str) {
+                    return $http.get(baseUrl(), {params: {nome: str}});
                 }
                 return $http.get(baseUrl());
             }
 
             function getById(salaoId) {
-                return $http.get(baseUrl() + "/" + salaoId)
+                return $http.get(baseUrl() + "/" + salaoId);
+            }
+
+            function servico(salaoId) {
+                return $http.get(baseUrl() + "/" + salaoId + "/servico");
+            }
+
+            function servicoById(salaoId, servicoId) {
+                return $http.get(baseUrl() + "/" + salaoId + "/servico/" + servicoId);
+            }
+
+            function funcionario(salaoId, servicoId) {
+                return $http.get(baseUrl() + "/" + salaoId + "/servico/" + servicoId + "/funcionario");
+            }
+
+            function horarioDisponivel(salaoId, servicoId, funcionarioId) {
+                return $http.get(baseUrl() + "/" + salaoId + "/servico/" + servicoId + "/funcionario/" + funcionarioId);
+            }
+
+            function agendar(salaoId, data) {
+                return $http.post(baseUrl() + "/" + salaoId + '/agenda', data);
             }
 
             return {
                 get: get,
-                getById: getById
+                getById: getById,
+                servico: servico,
+                servicoById: servicoById,
+                funcionario: funcionario,
+                horarioDisponivel: horarioDisponivel,
+                agendar: agendar
             }
 
         }
     ])
 
     .factory('estadoService', ['$http', 'config',
-        function($http, config) {
+        function ($http, config) {
 
             function url() {
-              return config.baseUrl + '/v1/estado';
+                return config.baseUrl + '/v1/estado';
             }
 
             function get(estadoId) {
 
-              if(estadoId) {
-                return $http.get(url() + "/" + estadoId);
-              }
+                if (estadoId) {
+                    return $http.get(url() + "/" + estadoId);
+                }
 
-              return $http.get(url());
+                return $http.get(url());
             }
 
             return {
-              get: get
+                get: get
             }
         }
     ])

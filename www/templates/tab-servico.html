@@ -1,0 +1,35 @@
+<ion-view view-title="Serviços" name="servico-view">
+    <ion-content scroll="false">
+        <div>
+            <div class="item item-thumbnail-left item-icon-right item-text-wrap">
+                <img ng-src="{{salao.imgBase64 }}">
+                <h2>{{ salao.nome }}</h2>
+                <p>
+                    {{ salao.endereco.rua }} ,
+                    {{ salao.endereco.numero }} -
+                    {{ salao.endereco.cidade.nome }} -
+                    {{ salao.endereco.estado.nome }}
+                </p>
+                <p>{{ salao.telefone }}</p>
+                <i ng-click="favorito(salao); $event.stopPropagation();" class="icon button button-icon" ng-class="{'ion-ios-star-outline': (!salao.favorito), 'ion-ios-star': (salao.favorito)}"></i>
+            </div>
+        </div>
+        <div class="item item-divider clearfix">
+            Selecione um Serviço
+        </div>
+        <div class="card" ng-if="horario.servicos.length == 0">
+            <div class="item item-text-wrap">
+                Nenhum serviço encontrado para este salão.
+            </div>
+        </div>
+        <ion-scroll style="height: 100%" ng-if="servicos.length > 0">
+            <ul class="list">
+                <li class="item" ng-repeat="servico in servicos" ng-click="goto('tab.profissional', {salaoId: salao.id, servicoId: servico.id})">
+                    <h2>{{servico.descricao}}</h2>
+                    <p>{{servico.valorMaximo | currency: 'R$ '}}</p>
+                </li>
+            </ul>
+            <div style="height: 131px;"></div>
+        </ion-scroll>
+    </ion-content>
+</ion-view>

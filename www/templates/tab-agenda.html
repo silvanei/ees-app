@@ -1,0 +1,52 @@
+<ion-view view-title="Agenda" name="agenda-view">
+    <ion-content scroll="false">
+
+        <div class="item item-thumbnail-left item-icon-right item-text-wrap">
+            <img ng-src="{{item.imgBase64 }}">
+            <h2>{{ item.nome }}</h2>
+            <h3>{{servico.descricao}}</h3>
+            <p>{{servico.valorMaximo | currency: 'R$ '}}</p>
+            <h3>{{profissional.apelido}}</h3>
+            <i ng-click="favorito(item); $event.stopPropagation();" class="icon button button-icon" ng-class="{'ion-ios-star-outline': (!item.favorito), 'ion-ios-star': (item.favorito)}"></i>
+        </div>
+
+        <div class="item item-divider">
+            Selecione um Horario
+        </div>
+
+        <ion-slide-box show-pager="false" style="height: 100%">
+            <ion-slide  ng-repeat="horario in horarios">
+                <div class="item item-divider text-center  item-icon-left item-icon-right">
+                    <i class="icon ion-arrow-left-b" ng-click="previous()"></i>
+                    {{horario.dia | date: 'dd/MM/yyyy'}}
+                    <i class="icon ion-arrow-right-b" ng-click="next()"></i>
+                </div>
+                <div class="card" ng-if="horario.horarios.length == 0">
+                    <div class="item item-text-wrap">
+                        Indisponível neste dia.
+                    </div>
+                </div>
+
+                <ion-scroll style="height: 100%" ng-if="horario.horarios.length > 0 ">
+                    <ul class="list">
+                        <li class="item" ng-repeat="hora in horario.horarios"
+                            ng-click="goto('tab.confirmacao', {
+                                salaoId: item.id,
+                                servicoId: servico.id,
+                                profissionalId: profissional.id,
+                                dia: horario.dia,
+                                hora: hora,
+                                salao: item.nome,
+                                servico: servico.descricao,
+                                profissional: profissional.apelido
+                            })"
+                        >
+                            <h2 class="text-center">{{hora | date: 'HH:mm'}}</h2>
+                        </li>
+                    </ul>
+                    <div style="height: 150px;"></div>
+                </ion-scroll>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
+</ion-view>
