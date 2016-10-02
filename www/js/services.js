@@ -175,8 +175,19 @@ angular
                 return $http.get(baseUrl());
             }
 
+            function reservas() {
+                return $http.get(baseUrl() + "/reserva");
+            }
+
+            function cancelarReserva(reserva) {
+                var reserva = angular.copy(reserva);
+                return $http.put(reserva.link.href);
+            }
+
             return {
-                get: get
+                get: get,
+                reservas: reservas,
+                cancelarReserva: cancelarReserva
             }
 
         }

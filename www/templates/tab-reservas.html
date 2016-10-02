@@ -1,15 +1,22 @@
-<ion-view view-title="Reservas" name="reserva-view">
+<ion-view view-title="Minhas Reservas" name="reserva-view">
     <ion-content>
-        <ion-list>
-            <ion-item ng-repeat="item in items" class="item-thumbnail-left item-button-right">
-                <img ng-src="{{item.imgBase64 }}">
-                <h2>{{ item.nome }}</h2>
-                <p>{{ item.telefone }}</p>
+        <div class="card" ng-if="reservas.items.length == 0">
+            <div class="item item-text-wrap">
+                Não há agendamentos futuros.
+            </div>
+        </div>
 
-                <button class="button">
-                    <i class="icon ion-ios-star"></i>
-                </button>
-
+        <ion-list ng-if="reservas.items">
+            <ion-item ng-repeat="reserva in reservas.items">
+                <h2>Salao</h2>
+                <p>{{reserva.salao}}</p>
+                <h2>Serviço</h2>
+                <p>{{reserva.servico}}</p>
+                <h2>Profissional</h2>
+                <p>{{reserva.profissional}}</p>
+                <h2>Data</h2>
+                <p>{{reserva.data}}</p>
+                <button class="button button-block button-calm" ng-click="cancelar(reserva)">Cancelar</button>
             </ion-item>
         </ion-list>
     </ion-content>

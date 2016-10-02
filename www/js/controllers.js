@@ -213,10 +213,36 @@ angular
         }
     ])
 
-    .controller('ReservasCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'clienteService',
-        function ($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, clienteService) {
-            $scope.teste = function (data) {
-                console.log(data);
+    .controller('ReservasCtrl', ['$scope', '$ionicLoading', '$ionicPopup', 'clienteService',
+        function ($scope, $ionicLoading, $ionicPopup, clienteService) {
+
+            var listReservas = function() {
+                clienteService.reservas().success(function (data) {
+
+                    data.items.forEach(function(item) {
+                        item.data = moment(item.data).format('LLLL');
+                    });
+
+                    $scope.reservas = data;
+                });
+            };
+
+            $scope.$on('$ionicView.enter', function (ev) {
+
+                clienteService.reservas().success(function (data) {
+                    listReservas();
+                });
+
+            });
+
+            $scope.cancelar = function(reserva) {
+                clienteService.cancelarReserva(reserva).success(function(data) {
+                    listReservas();
+                    $ionicPopup.alert({
+                        title: 'Sucesso',
+                        template: 'Horário cancelado com sucesso.'
+                    });
+                });
             };
         }
     ])
@@ -330,8 +356,8 @@ angular
         }
     ])
 
-    .controller('ConfirmacaoCtrl', ['$scope', '$stateParams', '$ionicPopup', 'authenticationService', 'salaoService',
-        function ($scope, $stateParams, $ionicPopup, authenticationService, salaoService) {
+    .controller('ConfirmacaoCtrl', ['$scope', '$stateParams', '$ionicPopup', '$state', 'authenticationService', 'salaoService',
+        function ($scope, $stateParams, $ionicPopup, $state, authenticationService, salaoService) {
 
             $scope.dados = {
                 clienteId: authenticationService.clienteId(),
@@ -355,9 +381,17 @@ angular
             };
 
             $scope.confirmar = function(confirmar) {
-                console.log(confirmar);
+
                 salaoService.agendar(confirmar.salaoId, confirmar).success(function(data) {
-                    console.log('sucesso => ', data);
+
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Sucesso',
+                        template: 'Horário agendado com sucesso.'
+                    });
+
+                    alertPopup.then(function(res) {
+                        $state.go('tab.favoritos');
+                    });
 
                 }).error(function(data, status) {
                     $ionicPopup.alert({
