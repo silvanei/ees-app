@@ -88,6 +88,15 @@ angular
                     }
                 }
             })
+            .state('tab.meus-dados', {
+                url: '/meus-dados',
+                views: {
+                    'tab-meus-dados': {
+                        templateUrl: 'templates/tab-meus-dados.html',
+                        controller: 'MeusDadosCtrl'
+                    }
+                }
+            })
         ;
 
         $urlRouterProvider.otherwise('/tab/favoritos');

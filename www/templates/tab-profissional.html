@@ -17,7 +17,7 @@
             </div>
         </div>
         <ion-scroll style="height: 100%" ng-if="profissionais.length > 0">
-            <ul class="list">
+            <ul class="list" style="height: 100%">
                 <li class="item" ng-repeat="profissional in profissionais" ng-click="goto('tab.agenda', {salaoId: item.id, servicoId: servico.id, profissionalId: profissional.id, apelido: profissional.apelido})">
                     <h2>{{profissional.apelido}}</h2>
                 </li>

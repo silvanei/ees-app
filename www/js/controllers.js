@@ -175,15 +175,15 @@ angular
         }
     ])
 
-    .controller('BuscaCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', '$state', 'salaoService', 'favoritoService',
-        function ($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, $state, salaoService, favoritoService) {
+    .controller('BuscaCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', '$state', 'clienteService', 'favoritoService',
+        function ($scope, $ionicLoading, $ionicPopup, $ionicListDelegate, $state, clienteService) {
             $scope.items = [];
             $scope.$on('$ionicView.enter', function (ev) {
                 $ionicLoading.show({
                     template: 'Loading...'
                 });
 
-                salaoService.get().success(function (data) {
+                clienteService.getSalao().success(function (data) {
                     $scope.items.data = data;
                     $ionicLoading.hide();
 
@@ -198,7 +198,7 @@ angular
 
             $scope.getUsersByName = function (str) {
 
-                salaoService.get(str).success(function (data) {
+                clienteService.getSalao(str).success(function (data) {
                     $scope.items.data = data;
                     $ionicLoading.hide();
 
@@ -402,6 +402,60 @@ angular
 
             };
 
+        }
+    ])
+
+    .controller('MeusDadosCtrl', ['$scope', '$state', '$ionicPopup', 'clienteService', 'estadoService',
+        function ($scope, $state, $ionicPopup, clienteService, estadoService) {
+
+            $scope.$on('$ionicView.enter', function (ev) {
+                $scope.user = {};
+
+                estadoService.get().success(function (data) {
+                    $scope.estados = data;
+                });
+
+                $scope.changeEstado = function (estadoId) {
+                    estadoService.get(estadoId).success(function (data) {
+                        $scope.cidades = data.cidades;
+                    });
+                };
+
+                clienteService.get().success(function(data) {
+                    $scope.user = data;
+
+                    if(typeof data.endereco.estado !== 'undefined') {
+                        estadoService.get(data.endereco.estado.id).success(function(data) {
+                            $scope.cidades = data.cidades;
+                        })
+                    } else {
+                        $scope.cidades = [];
+                    }
+                });
+            });
+
+            $scope.atualizar = function(data) {
+                clienteService.update(data).success(function(data) {
+                    $ionicPopup.alert({
+                        title: 'Sucesso',
+                        template: 'Dados atualizados com sucesso.'
+                    });
+
+                    $scope.user = data;
+
+                    if(typeof data.endereco.estado !== 'undefined') {
+                        estadoService.get(data.endereco.estado.id).success(function(data) {
+                            $scope.cidades = data.cidades;
+                        })
+                    } else {
+                        $scope.cidades = [];
+                    }
+                });
+            };
+
+            $scope.logout = function() {
+                $state.go('login');
+            }
         }
     ])
 ;

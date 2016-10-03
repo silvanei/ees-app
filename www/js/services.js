@@ -175,6 +175,11 @@ angular
                 return $http.get(baseUrl());
             }
 
+            function update(user) {
+                var user = angular.copy(user);
+                return $http.put(user.link.href, user);
+            }
+
             function reservas() {
                 return $http.get(baseUrl() + "/reserva");
             }
@@ -184,8 +189,17 @@ angular
                 return $http.put(reserva.link.href);
             }
 
+            function getSalao(str) {
+                if (str) {
+                    return $http.get(baseUrl() + '/salao', {params: {nome: str}});
+                }
+                return $http.get(baseUrl() + '/salao');
+            }
+
             return {
                 get: get,
+                getSalao: getSalao,
+                update: update,
                 reservas: reservas,
                 cancelarReserva: cancelarReserva
             }
@@ -228,13 +242,6 @@ angular
                 return config.baseUrl + '/v1/salao';
             }
 
-            function get(str) {
-                if (str) {
-                    return $http.get(baseUrl(), {params: {nome: str}});
-                }
-                return $http.get(baseUrl());
-            }
-
             function getById(salaoId) {
                 return $http.get(baseUrl() + "/" + salaoId);
             }
@@ -260,7 +267,6 @@ angular
             }
 
             return {
-                get: get,
                 getById: getById,
                 servico: servico,
                 servicoById: servicoById,
