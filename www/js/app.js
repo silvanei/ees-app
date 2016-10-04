@@ -66,7 +66,7 @@ angular
             };
 
             jwtOptionsProvider.config({
-                whiteListedDomains: ['localhost', '192.168.0.13']
+                whiteListedDomains: ['localhost', '192.168.0.13', 'ees-api.herokuapp.com']
             });
 
             $httpProvider.interceptors.push('jwtInterceptor');
@@ -74,6 +74,6 @@ angular
     ])
 
     .value('config', {
-        baseUrl: 'http://192.168.0.13:9090/agenda/rest'
+        baseUrl: 'https://ees-api.herokuapp.com/rest'
     })
 ;
