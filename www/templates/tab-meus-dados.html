@@ -1,5 +1,5 @@
 <ion-view view-title="Meus Dados" name="meus-dados-view">
-    <ion-content padding="true">
+    <ion-content padding="false">
         <form name="atualizarForm" novalidate="" >
             <div class="list">
                 <!-- NOME -->
@@ -73,8 +73,8 @@
 
             </div>
             <div class="spacer spacer-10"></div>
-            <button class="button button-block button-calm" ng-click="atualizar(user)" ng-disabled="atualizarForm.$invalid" >Atualizar</button>
-            <a ng-click="logout()" id="login-button2" class="button button-positive  button-block button-clear" >Sair</a>
+            <button class="button button-full button-royal" ng-click="atualizar(user)" ng-disabled="atualizarForm.$invalid" >Atualizar</button>
+            <a ng-click="logout()" id="login-button2" class="button button-royal  button-full button-clear" >Sair</a>
         </form>
     </ion-content>
 </ion-view>

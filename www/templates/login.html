@@ -1,39 +1,48 @@
 <ion-view view-title="Login" name="login-view">
-  <ion-content class="padding">
-    <form name="loginForm" novalidate="" >
-      <div class="list list-inset">
-          <!-- EMAIL -->
-          <label class="item item-input" ng-class="{'has-error': (loginForm.email.$invalid && loginForm.email.$dirty)}">
-              <input type="email" placeholder="E-mail" name="email" ng-model="user.email" ng-required="true">
-          </label>
-          <div ng-messages="loginForm.email.$error" ng-show="loginForm.email.$dirty">
-              <div ng-message="required" class="form-error">
-                  Por favor, preencher o campo e-mail
-              </div>
-              <div ng-message="email" class="form-error">
-                  Por favor, informe um e-mail válido
-              </div>
-          </div>
+    <ion-content>
+        <div class="logo"></div>
+        <form name="loginForm" novalidate="">
+            <div class="list">
+                <!-- EMAIL -->
+                <label class="item item-input"
+                       ng-class="{'has-error': (loginForm.email.$invalid && loginForm.email.$dirty)}">
+                    <input type="email" placeholder="E-mail" name="email" ng-model="user.email" ng-required="true">
+                </label>
 
-          <!-- SENHA -->
-          <label class="item item-input"  ng-class="{'has-error': (loginForm.password.$invalid && loginForm.password.$dirty)}">
-              <input type="password" name="password" placeholder="Senha" ng-model="user.password" ng-required="true" ng-minlength="5" ng-maxlength="10">
-          </label>
-          <div ng-messages="loginForm.password.$error" ng-show="loginForm.password.$dirty">
-              <div ng-message="required" class="form-error">
-                  Por favor, preencher o campo senha
-              </div>
-              <div ng-message="minlength" class="form-error">
-                  O campo senha deve ter no mínimo 5 caracteres
-              </div>
-              <div ng-message="maxlength" class="form-error">
-                  O campo senha deve ter no máximo 10 caracteres
-              </div>
-          </div>
-      </div>
-      <div class="spacer spacer-10"></div>
-      <button class="button button-block button-calm" ng-click="login(user)" ng-disabled="loginForm.$invalid">Login</button>
-      <a ng-click="goto('cadastro')" id="login-button2" class="button button-positive  button-block button-clear" >Ou criar uma conta</a>
-    </form>
-  </ion-content>
+                <div ng-messages="loginForm.email.$error" ng-show="loginForm.email.$dirty">
+                    <div ng-message="required" class="form-error">
+                        Por favor, preencher o campo e-mail
+                    </div>
+                    <div ng-message="email" class="form-error">
+                        Por favor, informe um e-mail válido
+                    </div>
+                </div>
+
+                <!-- SENHA -->
+                <label class="item item-input"
+                       ng-class="{'has-error': (loginForm.password.$invalid && loginForm.password.$dirty)}">
+                    <input type="password" name="password" placeholder="Senha" ng-model="user.password"
+                           ng-required="true" ng-minlength="5" ng-maxlength="10">
+                </label>
+
+                <div ng-messages="loginForm.password.$error" ng-show="loginForm.password.$dirty">
+                    <div ng-message="required" class="form-error">
+                        Por favor, preencher o campo senha
+                    </div>
+                    <div ng-message="minlength" class="form-error">
+                        O campo senha deve ter no mínimo 5 caracteres
+                    </div>
+                    <div ng-message="maxlength" class="form-error">
+                        O campo senha deve ter no máximo 10 caracteres
+                    </div>
+                </div>
+            </div>
+            <div class="spacer spacer-10"></div>
+            <button class="button button-full button-royal" ng-click="login(user)" ng-disabled="loginForm.$invalid">
+                Login
+            </button>
+            <a ng-click="goto('cadastro')" id="login-button2" class="button button-royal  button-full button-clear">Ou
+                criar uma conta</a>
+        </form>
+    </ion-content>
 </ion-view>

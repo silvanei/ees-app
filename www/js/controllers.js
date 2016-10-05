@@ -22,7 +22,13 @@ angular
                     }).error(function (data) {
                         $ionicPopup.alert({
                             title: 'Alerta',
-                            template: data.errorMessage
+                            template: data.errorMessage,
+                            buttons: [
+                                {
+                                    type: 'button-royal',
+                                    text: '<b>OK</b>'
+                                }
+                            ]
                         });
                     });
                 }
@@ -36,7 +42,13 @@ angular
                     }).error(function (data) {
                         $ionicPopup.alert({
                             title: 'Alerta',
-                            template: data.errorMessage
+                            template: data.errorMessage,
+                            buttons: [
+                                {
+                                    type: 'button-royal',
+                                    text: '<b>OK</b>'
+                                }
+                            ]
                         });
                     });
                 }
@@ -58,7 +70,13 @@ angular
                     } else {
                         $ionicPopup.alert({
                             title: 'Alerta',
-                            template: 'E-mail ou senha incoreto'
+                            template: 'E-mail ou senha incoreto',
+                            buttons: [
+                                {
+                                    type: 'button-royal',
+                                    text: '<b>OK</b>'
+                                }
+                            ]
                         });
                     }
                 });
@@ -75,7 +93,13 @@ angular
             }).error(function (data) {
                 $ionicPopup.alert({
                     title: 'Alerta',
-                    template: data.errorMessage
+                    template: data.errorMessage,
+                    buttons: [
+                        {
+                            type: 'button-royal',
+                            text: '<b>OK</b>'
+                        }
+                    ]
                 });
             });
 
@@ -110,7 +134,13 @@ angular
                     $ionicLoading.hide();
                     $ionicPopup.alert({
                         title: 'Alerta',
-                        template: data.errorMessage
+                        template: data.errorMessage,
+                        buttons: [
+                            {
+                                type: 'button-royal',
+                                text: '<b>OK</b>'
+                            }
+                        ]
                     });
                 });
             };
@@ -138,7 +168,13 @@ angular
                         $ionicLoading.hide();
                         $ionicPopup.alert({
                             title: 'Alerta',
-                            template: data.errorMessage
+                            template: data.errorMessage,
+                            buttons: [
+                                {
+                                    type: 'button-royal',
+                                    text: '<b>OK</b>'
+                                }
+                            ]
                         });
                     });
                 }
@@ -153,7 +189,13 @@ angular
                     }).error(function (data) {
                         $ionicPopup.alert({
                             title: 'Alerta',
-                            template: data.errorMessage
+                            template: data.errorMessage,
+                            buttons: [
+                                {
+                                    type: 'button-royal',
+                                    text: '<b>OK</b>'
+                                }
+                            ]
                         });
                     });
                 }
@@ -167,7 +209,13 @@ angular
                     }).error(function (data) {
                         $ionicPopup.alert({
                             title: 'Alerta',
-                            template: data.errorMessage
+                            template: data.errorMessage,
+                            buttons: [
+                                {
+                                    type: 'button-royal',
+                                    text: '<b>OK</b>'
+                                }
+                            ]
                         });
                     });
                 }
@@ -191,7 +239,13 @@ angular
                     $ionicLoading.hide();
                     $ionicPopup.alert({
                         title: 'Alerta',
-                        template: data.errorMessage
+                        template: data.errorMessage,
+                        buttons: [
+                            {
+                                type: 'button-royal',
+                                text: '<b>OK</b>'
+                            }
+                        ]
                     });
                 });
             });
@@ -206,7 +260,13 @@ angular
                     $ionicLoading.hide();
                     $ionicPopup.alert({
                         title: 'Alerta',
-                        template: data.errorMessage
+                        template: data.errorMessage,
+                        buttons: [
+                            {
+                                type: 'button-royal',
+                                text: '<b>OK</b>'
+                            }
+                        ]
                     });
                 });
             };
@@ -240,15 +300,21 @@ angular
                     listReservas();
                     $ionicPopup.alert({
                         title: 'Sucesso',
-                        template: 'Horário cancelado com sucesso.'
+                        template: 'Horário cancelado com sucesso.',
+                        buttons: [
+                            {
+                                type: 'button-royal',
+                                text: '<b>OK</b>'
+                            }
+                        ]
                     });
                 });
             };
         }
     ])
 
-    .controller('ServicoCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$stateParams', 'salaoService',
-        function ($scope, $ionicLoading, $ionicPopup, $stateParams, salaoService) {
+    .controller('ServicoCtrl', ['$scope', '$ionicLoading', '$stateParams', 'salaoService',
+        function ($scope, $ionicLoading, $stateParams, salaoService) {
             $scope.salao = {};
             $scope.servicos = [];
 
@@ -273,8 +339,8 @@ angular
         }
     ])
 
-    .controller('ProfissionalCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$stateParams', 'salaoService',
-        function ($scope, $ionicLoading, $ionicPopup, $stateParams, salaoService) {
+    .controller('ProfissionalCtrl', ['$scope', '$ionicLoading', '$stateParams', 'salaoService',
+        function ($scope, $ionicLoading, $stateParams, salaoService) {
             $scope.item = {};
             $scope.profissionais = [];
             $scope.servico = {};
@@ -306,8 +372,8 @@ angular
         }
     ])
 
-    .controller('AgendaCtrl', ['$scope', '$ionicLoading', '$ionicPopup', '$stateParams', '$ionicSlideBoxDelegate', 'salaoService',
-        function ($scope, $ionicLoading, $ionicPopup, $stateParams, $ionicSlideBoxDelegate, salaoService) {
+    .controller('AgendaCtrl', ['$scope', '$ionicLoading', '$stateParams', '$ionicSlideBoxDelegate', 'salaoService',
+        function ($scope, $ionicLoading, $stateParams, $ionicSlideBoxDelegate, salaoService) {
             $scope.servico = {};
             $scope.profissional = {
                 id: "",
@@ -386,7 +452,13 @@ angular
 
                     var alertPopup = $ionicPopup.alert({
                         title: 'Sucesso',
-                        template: 'Horário agendado com sucesso.'
+                        template: 'Horário agendado com sucesso.',
+                        buttons: [
+                            {
+                                type: 'button-royal',
+                                text: '<b>OK</b>'
+                            }
+                        ]
                     });
 
                     alertPopup.then(function(res) {
@@ -396,7 +468,13 @@ angular
                 }).error(function(data, status) {
                     $ionicPopup.alert({
                         title: 'Alerta',
-                        template: data.errorMessage
+                        template: data.errorMessage,
+                        buttons: [
+                            {
+                                type: 'button-royal',
+                                text: '<b>OK</b>'
+                            }
+                        ]
                     });
                 });
 
@@ -438,7 +516,13 @@ angular
                 clienteService.update(data).success(function(data) {
                     $ionicPopup.alert({
                         title: 'Sucesso',
-                        template: 'Dados atualizados com sucesso.'
+                        template: 'Dados atualizados com sucesso.',
+                        buttons: [
+                            {
+                                type: 'button-royal',
+                                text: '<b>OK</b>'
+                            }
+                        ]
                     });
 
                     $scope.user = data;

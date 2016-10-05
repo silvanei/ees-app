@@ -29,3 +29,16 @@ label.item.valid-lr {
 .spacer-10 {
   height: 10px;
 }
+
+
+.logo {
+  background: url(../img/logo.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 80%;
+  height: 110px;
+  margin: 30px auto;
+  z-index: 2;
+  position: relative;
+}
